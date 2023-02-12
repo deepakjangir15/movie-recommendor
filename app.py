@@ -6,14 +6,15 @@ from dotenv import load_dotenv
 
 movies_list = pd.read_pickle('movies.pkl')
 similarity = pd.read_pickle('similarity.pkl')
-movies = movies_list['title'].values
-api_key = os.getenv('api_key')
+movies = movies_list['title'].values\
+
+load_dotenv()
 
 def fetch_poster(movie_id):
+    api_key = os.getenv('api_key')
     print("The movie id is --- ",movie_id)
-    response = requests.get('https://api.themoviedb.org/3/movie/{}?api_key={}&language=en-US'.format(movie_id,api_key))
+    response = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=en-US')
     data = response.json()
-    print(data)
     return 'https://image.tmdb.org/t/p/w500/' + data['poster_path']
 
 
