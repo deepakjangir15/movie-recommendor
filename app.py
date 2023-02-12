@@ -1,14 +1,17 @@
 import streamlit as st
 import pandas as pd
+import os
 import requests
+from dotenv import load_dotenv
 
 movies_list = pd.read_pickle('movies.pkl')
 similarity = pd.read_pickle('similarity.pkl')
 movies = movies_list['title'].values
+api_key = os.getenv('api_key')
 
 def fetch_poster(movie_id):
     print("The movie id is --- ",movie_id)
-    response = requests.get('https://api.themoviedb.org/3/movie/{}?api_key=d8332cd45460e0024e48795b998655db&language=en-US'.format(movie_id))
+    response = requests.get('https://api.themoviedb.org/3/movie/{}?api_key={}&language=en-US'.format(movie_id,api_key))
     data = response.json()
     print(data)
     return 'https://image.tmdb.org/t/p/w500/' + data['poster_path']
